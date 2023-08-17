@@ -1,0 +1,33 @@
+{
+  "name": "vite-event",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+  },
+  "dependencies": {
+    "@tinymce/tinymce-vue": "^5.1.0",
+    "pinia": "^2.1.4",
+    "tinymce-i18n": "^23.8.14",
+    "tw-elements": "^1.0.0-beta3",
+    "vue": "^3.3.4",
+    "vue-axios": "^3.5.2",
+    "vue-router": "^4.2.4",
+    "vue3-marquee": "^4.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.4",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "autoprefixer": "^10.4.14",
+    "eslint": "^8.47.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "postcss": "^8.4.27",
+    "prettier": "^3.0.1",
+    "prettier-plugin-tailwindcss": "^0.5.2",
+    "tailwindcss": "^3.3.3",
+    "vite": "^4.4.6"
+  }
+}
