@@ -12,7 +12,10 @@
           </div>
         </div>
         <div class="col-span-12 lg:col-span-2">
-          <div v-if="post.createAt" class="grid h-full grid-cols-12 flex-col gap-2 lg:flex lg:gap-6">
+          <div
+            v-if="post.createAt"
+            class="grid h-full grid-cols-12 flex-col gap-2 lg:flex lg:gap-6"
+          >
             <div class="col-span-4">
               <div
                 class="border-2 px-4 py-6 text-center lg:border-3 2xl:px-10 2xl:py-8"
@@ -20,7 +23,7 @@
                 <p
                   class="font-Yese text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl"
                 >
-                  {{ post.createAt.slice(-5) }}
+                  {{ formatDate.year }}
                 </p>
               </div>
             </div>
@@ -31,8 +34,8 @@
                 <div
                   class="font-Yese text-[22px] leading-[25px] lg:text-3xl xl:text-4xl 2xl:text-5xl"
                 >
-                  <p class="">{{ post.createAt.slice(3, 6) }}</p>
-                  <p class="">{{ post.createAt.slice(0, 3) }}</p>
+                  <p class="">{{ formatDate.month }}</p>
+                  <p class="">{{ formatDate.day }}</p>
                 </div>
                 <div
                   class="h-0.5 w-[50px] -rotate-[60deg] bg-primary lg:my-[45px]"
@@ -82,9 +85,10 @@
 </template>
 
 <script setup>
-import { reactive, computed } from "vue";
+import { reactive, computed, ref, watchEffect } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
+import { useLocalDate } from "../../composables/format";
 import usePostStore from "../../stores/postStore";
 import TagComponent from "../../components/TagComponent.vue";
 import SectionTitle from "../../components/SectionTitle.vue";
@@ -92,8 +96,17 @@ import SectionTitle from "../../components/SectionTitle.vue";
 const postStore = usePostStore();
 const route = useRoute();
 
-const { fetchPost } = postStore
+const { fetchPost } = postStore;
 const { post } = storeToRefs(postStore);
+
+const formatDate = ref({});
+watchEffect(() => {
+  formatDate.value = useLocalDate(post.value.createAt);
+});
+
+const id = computed(() => {
+  return route.params.postId;
+});
 
 const sections = reactive([
   {
@@ -101,10 +114,6 @@ const sections = reactive([
     engTitle: "Featured",
   },
 ]);
-
-const id = computed(() => {
-  return route.params.postId;
-});
 
 fetchPost(id.value);
 </script>
