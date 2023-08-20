@@ -29,7 +29,7 @@ const router = createRouter({
         },
         {
           path: "post/new",
-          component: () => import("../views/admin/PostEditView.vue"),
+          component: () => import("../views/admin/PostNewView.vue"),
         },
         {
           path: "post/:postId",

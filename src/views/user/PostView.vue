@@ -59,20 +59,22 @@
           </h2>
         </div>
       </div>
-
       <div class="grid-cols-12 lg:grid">
         <div class="lg:col-span-6 lg:col-start-4">
-          <div class="hidden lg:block">
-            <ul class="mb-12 flex justify-center gap-2">
-              <li class="" v-for="item in post.tags" :key="item">
-                <TagComponent :tag="item" />
-              </li>
-            </ul>
-          </div>
-          <div
-            v-html="post.description"
-            class="mb-6 border border-primary/70 p-4 text-stone-700 lg:mb-12 lg:border-2 lg:p-8"
-          ></div>
+          <ul class="mb-12 flex justify-center gap-2">
+            <li class="" v-for="item in post.tag" :key="item">
+              <TagComponent :tag="item" />
+            </li>
+          </ul>
+          <p
+            class="mb-4 border border-primary/70 p-4 text-stone-700 leading-7 mx-6 lg:mb-6 lg:border-2 lg:p-8"
+          >
+            {{ post.description }}
+          </p>
+        </div>
+      </div>
+      <div class="grid-cols-12 lg:grid">
+        <div class="lg:col-span-8 lg:col-start-3">
           <div
             v-html="post.content"
             class="mb-6 p-4 lg:mb-12 lg:p-8 lg:text-lg"

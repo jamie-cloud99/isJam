@@ -1,7 +1,10 @@
 <template>
   <div>
     <HeaderComponent />
-    <RouterView />
+    <div class="container py-10">
+      <RouterView />
+    </div>
+    
   </div>
 </template>
 

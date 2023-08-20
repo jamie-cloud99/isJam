@@ -4,14 +4,27 @@
 
 @layer base {
   body {
-    @apply bg-light border-primary font-sans text-primary;
+    @apply border-primary bg-light font-sans text-primary;
   }
 }
 
 @layer utilities {
   .writing-verticle {
-    writing-mode: vertical-lr
+    writing-mode: vertical-lr;
   }
+
+  .is-invalid {
+    @apply border-red-600 focus:ring-4 focus:ring-red-600/30;
+  }
+
+  .text-end {
+    @apply text-right;
+  }
+
+  .aspect-auto {
+    @apply aspect-auto;
+  }
+
 }
 
 @layer components {
@@ -24,6 +37,6 @@
   }
 
   .form-input {
-    @apply focus:border-primary focus:ring-secondary
+    @apply focus:border-primary focus:ring-secondary;
   }
 }

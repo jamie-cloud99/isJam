@@ -21,7 +21,7 @@
             <input
               class="form-input h-10 w-[167px] border-2 border-primary bg-transparent placeholder:text-[#4F4F4F] focus:border-primary focus:ring-secondary"
               type="text"
-              placeholder="探索活動"
+              placeholder="探索文章"
             />
             <button
               type="button"

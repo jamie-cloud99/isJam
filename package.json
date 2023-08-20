@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "@tinymce/tinymce-vue": "^5.1.0",
+    "@vee-validate/i18n": "^4.11.1",
+    "@vee-validate/rules": "^4.11.1",
     "pinia": "^2.1.4",
     "tinymce-i18n": "^23.8.14",
     "tw-elements": "^1.0.0-beta3",
+    "vee-validate": "^4.11.1",
     "vue": "^3.3.4",
     "vue-axios": "^3.5.2",
     "vue-router": "^4.2.4",
