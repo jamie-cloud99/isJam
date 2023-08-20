@@ -28,5 +28,6 @@ coverage
 
 #env
 *.env
+*.env.*
 
 db.json

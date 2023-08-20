@@ -17,7 +17,7 @@
       <a href="#" class="py-2 font-serif font-bold block hover:underline">
         <img src="/images/sparkler.png" alt="sparkler" class="w-6 h-6 inline-block pb-1">
         {{ props.post.category }}</a>
-      <RouterLink :to="`/post/${props.post.id}`"  class="relative block py-2 font-bold link-spot"
+      <RouterLink :to="{path: `/post/${props.post.id}`, query:{ pageTitle: `${props.post.title}` }}"  class="relative block py-2 font-bold link-spot"
         >查看內容 <span class="ml-1">»</span>
         <span class="absolute w-0 h-0 top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 rounded-full bg-secondary -z-10 hide transition-all duration-300"></span>
       </RouterLink>

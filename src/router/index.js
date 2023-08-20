@@ -15,6 +15,7 @@ const router = createRouter({
         },
         {
           path: "post/:postId",
+          name: 'post',
           component: () => import("../views/user/PostView.vue"),
         },
       ],
@@ -39,5 +40,17 @@ const router = createRouter({
     },
   ],
 });
+
+router.beforeEach((to, from) => {
+  const titleFromParams = to.query?.pageTitle
+  console.log(titleFromParams)
+  if (titleFromParams) {
+    document.title = `${titleFromParams} - ${document.title}`
+  } else{
+    document.title = to.meta?.title ?? 'JamJam Blog 即興發揮的日常'
+  }
+  
+})
+
 
 export default router;
