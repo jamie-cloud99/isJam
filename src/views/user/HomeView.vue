@@ -234,4 +234,5 @@ const sections = reactive([
 
 clearPost()
 fetchPostsAll();
+
 </script>

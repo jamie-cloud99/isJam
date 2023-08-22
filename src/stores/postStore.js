@@ -21,6 +21,7 @@ export default defineStore("postStore", () => {
     createAt: today.value,
   });
   const post = ref({});
+  const postLasted = ref({});
   const tempPost = ref({});
   const categoryList = ref([
     {
@@ -52,6 +53,8 @@ export default defineStore("postStore", () => {
   const fetchPostsAll = async () => {
     const res = await axios.get(`${VITE_JSON_SERVER}posts`);
     postList.value = res.data;
+    getNewestPost()
+    getSeoTags(postLasted)
   };
 
   const fetchPost = async (id) => {
@@ -59,42 +62,7 @@ export default defineStore("postStore", () => {
     try {
       const res = await axios.get(api);
       post.value = res.data;
-      useHead({
-        templateParams: {
-          site: {
-            name: "JamJam Blog 即興發揮的日常",
-            url: "https://jamie-cloud99.github.io/isJam/#",
-          },
-          separator: "-",
-        },
-        title: `${post.value.title}|%site.name`,
-        meta: [
-          {
-            name: "description",
-            content: `${post.value.description}`,
-          },
-          {
-            property: "og:site_name",
-            content: `JamJam Blog 即興發揮的日常`,
-          },
-          {
-            property: "og:title",
-            content: `${post.value.title}`,
-          },
-          {
-            property: "og:description",
-            content: `${post.value.description}`,
-          },
-          {
-            property: "og:url",
-            content: `%site.url/post/${post.value.id}`,
-          },
-          {
-            property: "og:image",
-            content: `${post.value.imageUrl}`,
-          },
-        ],
-      });
+      getSeoTags(post)
     } catch (error) {
       console.log(error);
     }
@@ -142,6 +110,49 @@ export default defineStore("postStore", () => {
   const clearPost = () => {
     post.value = {};
   };
+
+  const getNewestPost = () => {
+    postLasted.value = postList.value.sort((a, b) => b.createAt-a.createAt)[0]
+  }
+
+  const getSeoTags = (post) => {
+     useHead({
+        templateParams: {
+          site: {
+            name: "JamJam Blog 即興發揮的日常",
+            url: "https://jamie-cloud99.github.io/isJam/#",
+          },
+          separator: "-",
+        },
+        title: `${post.value.title}|%site.name`,
+        meta: [
+          {
+            name: "description",
+            content: `${post.value.description}`,
+          },
+          {
+            property: "og:site_name",
+            content: `JamJam Blog 即興發揮的日常`,
+          },
+          {
+            property: "og:title",
+            content: `${post.value.title}`,
+          },
+          {
+            property: "og:description",
+            content: `${post.value.description}`,
+          },
+          {
+            property: "og:url",
+            content: `%site.url/post/${post.value.id}`,
+          },
+          {
+            property: "og:image",
+            content: `${post.value.imageUrl}`,
+          },
+        ],
+      });
+  }
 
   return {
     today,
