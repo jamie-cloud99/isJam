@@ -2,6 +2,7 @@ import { defineStore, storeToRefs } from "pinia";
 import { computed, ref } from "vue";
 
 import axios from "axios";
+import { useHead } from "@unhead/vue";
 import useStatusStore from "./statusStore";
 
 const { VITE_JSON_SERVER } = import.meta.env;
@@ -22,28 +23,31 @@ export default defineStore("postStore", () => {
   const post = ref({});
   const tempPost = ref({});
   const categoryList = ref([
-  {
-    icon: "fa-clapperboard",
-    title: "影劇",
-  },
-  {
-    icon: "fa-guitar",
-    title: "音樂",
-  },
-  {
-    icon: "fa-book-open-reader",
-    title: "閱讀",
-  },
-  {
-    icon: "fa-laptop-code",
-    title: "程式",
-  },
-  {
-    icon: "fa-user-astronaut",
-    title: "雜想",
-  },
-]);
+    {
+      icon: "fa-clapperboard",
+      title: "影劇",
+    },
+    {
+      icon: "fa-guitar",
+      title: "音樂",
+    },
+    {
+      icon: "fa-book-open-reader",
+      title: "閱讀",
+    },
+    {
+      icon: "fa-laptop-code",
+      title: "程式",
+    },
+    {
+      icon: "fa-user-astronaut",
+      title: "雜想",
+    },
+  ]);
 
+  const recentPosts = computed(() => {
+    return postList.value.slice(0, 6);
+  });
 
   const fetchPostsAll = async () => {
     const res = await axios.get(`${VITE_JSON_SERVER}posts`);
@@ -55,6 +59,42 @@ export default defineStore("postStore", () => {
     try {
       const res = await axios.get(api);
       post.value = res.data;
+      useHead({
+        templateParams: {
+          site: {
+            name: "JamJam Blog 即興發揮的日常",
+            url: "https://jamie-cloud99.github.io/isJam/#",
+          },
+          separator: "-",
+        },
+        title: `${post.value.title}|%site.name`,
+        meta: [
+          {
+            name: "description",
+            content: `${post.value.description}`,
+          },
+          {
+            property: "og:site_name",
+            content: `JamJam Blog 即興發揮的日常`,
+          },
+          {
+            property: "og:title",
+            content: `${post.value.title}`,
+          },
+          {
+            property: "og:description",
+            content: `${post.value.description}`,
+          },
+          {
+            property: "og:url",
+            content: `%site.url/post/${post.value.id}`,
+          },
+          {
+            property: "og:image",
+            content: `${post.value.imageUrl}`,
+          },
+        ],
+      });
     } catch (error) {
       console.log(error);
     }
@@ -99,9 +139,9 @@ export default defineStore("postStore", () => {
     }
   };
 
-  const recentPosts = computed(() => {
-    return postList.value.slice(0, 6);
-  });
+  const clearPost = () => {
+    post.value = {};
+  };
 
   return {
     today,
@@ -116,5 +156,6 @@ export default defineStore("postStore", () => {
     fetchPost,
     createPost,
     updatePost,
+    clearPost,
   };
 });

@@ -91,6 +91,8 @@ import { reactive, computed, ref, watchEffect } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
 import { useLocalDate } from "../../composables/format";
+
+
 import usePostStore from "../../stores/postStore";
 import TagComponent from "../../components/TagComponent.vue";
 import SectionTitle from "../../components/SectionTitle.vue";
@@ -118,4 +120,6 @@ const sections = reactive([
 ]);
 
 fetchPost(id.value);
+
+
 </script>

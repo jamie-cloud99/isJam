@@ -8,6 +8,7 @@
       class="mb-2 block h-[210px] w-full object-cover lg:mb-3 lg:h-[255px]"
       :src="props.post.imageUrl"
       :alt="props.post.title"
+      referrerPolicy="no-referrer"
     />
     <h4 class="mb-2 font-serif text-lg lg:mb-3 lg:text-2xl line-clamp-2">
       {{ props.post.title }}
@@ -28,13 +29,15 @@
 <script setup>
 import { useLocalDate } from "../composables/format"
 
-
 const props = defineProps({
   post: {
     type: Object,
     default: () => ({}),
   },
 });
+
+
+
 
 
 

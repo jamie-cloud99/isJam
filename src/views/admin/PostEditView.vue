@@ -70,7 +70,7 @@ fetchPost(id.value);
 
 const savePost = async (post, id) => {
   await updatePost(post, id)
-  router.push('/admin/posts')
+  // router.push('/admin/posts')
 }
 
 </script>

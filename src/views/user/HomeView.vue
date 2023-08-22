@@ -188,7 +188,7 @@ import usePostStore from "../../stores/postStore";
 
 const postStore = usePostStore();
 const { today, categoryList, recentPosts } = storeToRefs(postStore);
-const { fetchPostsAll } = postStore;
+const { fetchPostsAll, clearPost } = postStore;
 
 const onlineEvent = reactive({
   title: "Consolation To You",
@@ -232,5 +232,6 @@ const sections = reactive([
   },
 ]);
 
+clearPost()
 fetchPostsAll();
 </script>
