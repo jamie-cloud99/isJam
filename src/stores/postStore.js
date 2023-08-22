@@ -59,7 +59,7 @@ export default defineStore("postStore", () => {
     const res = await axios.get(`${VITE_JSON_SERVER}posts`);
     postList.value = res.data;
     getNewestPost()
-    getSeoTags(postLasted)
+    // getSeoTags(postLasted)
   };
 
   const fetchPost = async (id) => {
