@@ -81,7 +81,14 @@
           ></div>
         </div>
       </div>
-      <!-- <SectionTitle :title="sections[0]" class="mb-2 lg:mb-4" /> -->
+      <SectionTitle :title="sections[0]" class="mb-4 lg:mb-8" />
+      <ul
+        class="mb-8 grid grid-cols-1 gap-6 md:mb-12 md:grid-cols-2 md:gap-y-8 lg:mb-15 lg:grid-cols-3 lg:gap-y-12"
+      >
+        <li class="col-span-1" v-for="item in relatedPosts" :key="item.id">
+          <PostCard :post="item" hide="true"/>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -97,12 +104,13 @@ import { useLocalDate } from "../../composables/format";
 import usePostStore from "../../stores/postStore";
 import TagComponent from "../../components/TagComponent.vue";
 import SectionTitle from "../../components/SectionTitle.vue";
+import PostCard from "../../components/PostCard.vue";
 
 const postStore = usePostStore();
 const route = useRoute();
 
 const { fetchPost } = postStore;
-const { post } = storeToRefs(postStore);
+const { post, relatedPosts } = storeToRefs(postStore);
 
 const formatDate = ref({});
 watchEffect(() => {
@@ -115,8 +123,8 @@ const id = computed(() => {
 
 const sections = reactive([
   {
-    title: "精選時刻",
-    engTitle: "Featured",
+    title: "相似文章",
+    engTitle: "More",
   },
 ]);
 

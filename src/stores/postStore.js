@@ -50,6 +50,11 @@ export default defineStore("postStore", () => {
     return postList.value.slice(0, 6);
   });
 
+  const relatedPosts = computed(() => {
+
+    return postList.value.filter(item => item.category === post.value.category && item.id !== post.value.id)
+  })
+
   const fetchPostsAll = async () => {
     const res = await axios.get(`${VITE_JSON_SERVER}posts`);
     postList.value = res.data;
@@ -62,6 +67,7 @@ export default defineStore("postStore", () => {
     try {
       const res = await axios.get(api);
       post.value = res.data;
+      fetchPostsAll()
       getSeoTags(post)
     } catch (error) {
       console.log(error);
@@ -162,6 +168,7 @@ export default defineStore("postStore", () => {
     post,
     tempPost,
     categoryList,
+    relatedPosts,
     fetchPostsAll,
     updateContent,
     fetchPost,

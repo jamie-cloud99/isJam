@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h3 class="font-Yese mb-2 text-[32px] lg:mb-3 xl:text-[48px]">
+    <h3 v-if="!hide" class="font-Yese mb-2 text-[32px] lg:mb-3 xl:text-[48px]">
       {{ useLocalDate(props.post.createAt).fullDate }}
     </h3>
-    <hr class="mb-4 border-b-3 lg:mb-3" />
+    <hr v-if="!hide" class="mb-4 border-b-3 lg:mb-3" />
     <img
       class="mb-2 block h-[210px] w-full object-cover lg:mb-3 lg:h-[255px]"
       :src="props.post.imageUrl"
@@ -34,6 +34,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  hide: {
+    type: Boolean,
+    default: false
+  }
 });
 
 
