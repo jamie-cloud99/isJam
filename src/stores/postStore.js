@@ -105,7 +105,6 @@ export default defineStore("postStore", () => {
     const api = `${VITE_JSON_SERVER}posts/${id}`;
     try {
       const res = await axios.patch(api, post);
-      console.log(res);
       status.value.isSaving = false;
     } catch (error) {
       console.log(error);

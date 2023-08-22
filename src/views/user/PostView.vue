@@ -86,7 +86,7 @@
         class="mb-8 grid grid-cols-1 gap-6 md:mb-12 md:grid-cols-2 md:gap-y-8 lg:mb-15 lg:grid-cols-3 lg:gap-y-12"
       >
         <li class="col-span-1" v-for="item in relatedPosts" :key="item.id">
-          <PostCard :post="item" hide="true"/>
+          <PostCard :post="item" :hide="isHide"/>
         </li>
       </ul>
     </div>
@@ -94,11 +94,12 @@
 </template>
 
 <script setup>
-import { reactive, computed, ref, watchEffect } from "vue";
+import { reactive, computed, ref, watchEffect, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
 import { useLocalDate } from "../../composables/format";
 
+const isHide = ref(true)
 
 
 import usePostStore from "../../stores/postStore";
@@ -120,6 +121,10 @@ watchEffect(() => {
 const id = computed(() => {
   return route.params.postId;
 });
+
+watch(() => id.value, () => {
+  fetchPost(id.value)
+})
 
 const sections = reactive([
   {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @click="$router.push(`/post/${props.post.id}`)" class="cursor-pointer">
     <h3 v-if="!hide" class="font-Yese mb-2 text-[32px] lg:mb-3 xl:text-[48px]">
       {{ useLocalDate(props.post.createAt).fullDate }}
     </h3>
