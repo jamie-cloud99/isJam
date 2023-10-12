@@ -14,9 +14,17 @@ const router = createRouter({
           component: HomeView,
         },
         {
-          path: "post/:postId",
-          name: 'post',
+          path: "/posts",
+          component: () => import("../views/user/PostList.vue"),
+        },
+        {
+          path: "posts/:postId",
+          name: "post",
           component: () => import("../views/user/PostView.vue"),
+        },
+        {
+          path: "search",
+          component: () => import("../views/user/SearchList.vue"),
         },
       ],
     },
@@ -29,32 +37,37 @@ const router = createRouter({
           component: () => import("../views/admin/PostList.vue"),
         },
         {
-          path: "post/new",
+          path: "posts/new",
           component: () => import("../views/admin/PostNewView.vue"),
         },
         {
-          path: "post/:postId",
+          path: "posts/:postId",
           component: () => import("../views/admin/PostEditView.vue"),
         },
+        {
+          path: "data",
+          component: () => import("../views/admin/DataView.vue"),
+        },
       ],
+    },
+    {
+      path: "/login",
+      component: () => import("../views/LoginView.vue"),
     },
   ],
   scrollBehavior(to, from, savedPosition) {
     // always scroll to top
-    return { top: 0 }
+    return { top: 0 };
   },
 });
 
 router.beforeEach((to, from) => {
-  const titleFromParams = to.query?.pageTitle
-  console.log(titleFromParams)
+  const titleFromParams = to.query?.pageTitle;
   if (titleFromParams) {
-    document.title = `${titleFromParams} - ${document.title}`
-  } else{
-    document.title = to.meta?.title ?? 'JamJam Blog 即興發揮的日常'
+    document.title = `${titleFromParams} - ${document.title}`;
+  } else {
+    document.title = to.meta?.title ?? "JamJam Blog 即興發揮的日常";
   }
-  
-})
-
+});
 
 export default router;

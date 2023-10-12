@@ -1,13 +1,14 @@
 import { defineStore } from "pinia";
-import { reactive } from "vue";
+import { ref } from "vue";
 
 export default defineStore("statusStore", () => {
-  const status = reactive({
+  const status = ref({
     isSaving: false,
     isNewPost: true,
+    showAdminMenu: true
   });
 
   
 
-  return { status,  };
+  return { status};
 });

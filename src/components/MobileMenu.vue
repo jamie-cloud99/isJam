@@ -2,12 +2,13 @@
   <div class="bg-light fixed top-[90px] z-50 h-screen w-full">
     <div class="border-b-2 py-6">
       <div class="container space-y-2">
+        
         <RouterLink
-          to="/"
-          class="font-Yese hover:text-secondary-dark block py-1 text-lg"
+          to="/posts"
+          class="font-serif font-semibold hover:text-secondary-dark block py-1 text-lg"
         >
           <i class="icofont-ui-file mr-1"></i>
-          REGISTER
+          文章總覽
         </RouterLink>
         <RouterLink
           to="/"
