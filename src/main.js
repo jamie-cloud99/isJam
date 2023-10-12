@@ -1,6 +1,10 @@
 import "./assets/main.css";
 import "./assets/icofont/icofont.min.css";
 
+import 'highlight.js/styles/stackoverflow-light.css'
+import 'highlight.js/lib/common';
+import hljsVuePlugin from "@highlightjs/vue-plugin";
+
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import axios from "axios";
@@ -35,6 +39,7 @@ app.use(head);
 app.use(createPinia());
 app.use(router);
 app.use(VueAxios, axios);
+app.use(hljsVuePlugin)
 
 app.component("VField", Field);
 app.component("VForm", Form);
