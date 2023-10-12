@@ -72,7 +72,6 @@
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
-
 import usePostStore from "../../stores/postStore";
 import useStatusStore from "../../stores/statusStore";
 import { useLocalDate } from "../../composables/format";
@@ -86,11 +85,12 @@ const { fetchPostsAll } = postStore;
 
 const openEditor = (statusNew, id) => {
   status.value.isNewPost = statusNew;
+  status.value.showAdminMenu = false
 
   if (statusNew) {
-    router.push("/admin/post/new");
+    router.push("/admin/posts/new");
   } else {
-    router.push(`/admin/post/${id}`);
+    router.push(`/admin/posts/${id}`);
   }
 };
 
@@ -104,5 +104,5 @@ const toggleEditList = (id) => {
 };
 
 fetchPostsAll();
-
+status.value.showAdminMenu = true
 </script>

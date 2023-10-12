@@ -8,6 +8,7 @@
               class="block h-full max-h-[180px] w-full object-cover md:max-h-[500px] 2xl:max-h-[560px]"
               :src="post.imageUrl"
               :alt="post.title"
+              referrerPolicy="no-referrer"
             />
           </div>
         </div>
@@ -53,31 +54,33 @@
       <div class="grid-cols-12 lg:grid">
         <div class="lg:col-span-8 lg:col-start-3">
           <h2
-            class="mb-3 text-center font-serif text-8 font-bold tracking-wider lg:mb-8 lg:text-[40px]"
+            class="mb-3 font-serif text-8 font-bold tracking-wider lg:mb-8 lg:text-[40px]"
           >
             {{ post.title }}
           </h2>
         </div>
       </div>
       <div class="grid-cols-12 lg:grid">
-        <div class="lg:col-span-6 lg:col-start-4">
-          <ul class="mb-12 flex justify-center gap-2">
+        <div class="lg:col-span-8 lg:col-start-3">
+          <ul class="mb-12 flex gap-2 flex-wrap">
             <li class="" v-for="item in post.tag" :key="item">
               <TagComponent :tag="item" />
             </li>
           </ul>
           <p
-            class="mb-4 border border-primary/70 p-4 text-stone-700 leading-7 mx-6 lg:mb-6 lg:border-2 lg:p-8"
+            class=" mb-4 border border-primary/70 p-4 leading-7 text-stone-700 lg:mb-6 lg:border-2 lg:p-8"
           >
             {{ post.description }}
           </p>
         </div>
       </div>
+
       <div class="grid-cols-12 lg:grid">
         <div class="lg:col-span-8 lg:col-start-3">
           <div
+            ref="content"
             v-html="post.content"
-            class="mb-6 p-4 lg:mb-12 lg:p-8 lg:text-lg"
+            class="content mb-6 p-4 lg:mb-12 lg:py-8 lg:text-lg"
           ></div>
         </div>
       </div>
@@ -86,7 +89,7 @@
         class="mb-8 grid grid-cols-1 gap-6 md:mb-12 md:grid-cols-2 md:gap-y-8 lg:mb-15 lg:grid-cols-3 lg:gap-y-12"
       >
         <li class="col-span-1" v-for="item in relatedPosts" :key="item.id">
-          <PostCard :post="item" :hide="isHide"/>
+          <PostCard :post="item" :hide="isHide" />
         </li>
       </ul>
     </div>
@@ -94,13 +97,14 @@
 </template>
 
 <script setup>
-import { reactive, computed, ref, watchEffect, watch } from "vue";
+import { reactive, computed, ref, watchEffect, watch, onUpdated } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
 import { useLocalDate } from "../../composables/format";
+import hljs from "highlight.js";
+import "highlight.js/styles/base16/ashes.min.css";
 
-const isHide = ref(true)
-
+const isHide = ref(true);
 
 import usePostStore from "../../stores/postStore";
 import TagComponent from "../../components/TagComponent.vue";
@@ -112,6 +116,14 @@ const route = useRoute();
 
 const { fetchPost } = postStore;
 const { post, relatedPosts } = storeToRefs(postStore);
+const content = ref(null);
+
+const sections = reactive([
+  {
+    title: "相似文章",
+    engTitle: "More",
+  },
+]);
 
 const formatDate = ref({});
 watchEffect(() => {
@@ -122,18 +134,67 @@ const id = computed(() => {
   return route.params.postId;
 });
 
-watch(() => id.value, () => {
-  fetchPost(id.value)
-})
-
-const sections = reactive([
-  {
-    title: "相似文章",
-    engTitle: "More",
+watch(
+  () => id.value,
+  () => {
+    fetchPost(id.value);
   },
-]);
+);
 
 fetchPost(id.value);
 
-
+onUpdated(() => {
+  const blocks = content.value.querySelectorAll("pre code");
+  for (let i = 0; i < blocks.length; i++) {
+    hljs.highlightElement(blocks[i]);
+  }
+});
 </script>
+
+<style>
+.content ul {
+  @apply mb-4 list-inside list-disc ps-6;
+}
+
+.content h2 {
+  @apply mb-6 mt-2 text-xl font-bold lg:text-2xl;
+}
+
+.content h3 {
+  @apply my-2 font-bold lg:text-xl;
+}
+
+.content pre {
+  @apply m-4 text-sm;
+}
+
+.content li p {
+  @apply inline-block;
+}
+
+.content li > ul {
+  @apply mb-2 list-[circle];
+}
+
+.content li > ul > li > ul {
+  @apply mb-2 list-[square];
+}
+
+.content code:not(.hljs) {
+  @apply bg-stone-200 px-2 py-0.5 mx-1 text-red-500 rounded-sm;
+}
+
+.content a {
+  @apply underline hover:text-stone-700
+}
+
+.callout {
+  @apply my-4 gap-3 p-4;
+}
+
+.callout-pink {
+  @apply bg-red-100/50;
+}
+
+
+</style>

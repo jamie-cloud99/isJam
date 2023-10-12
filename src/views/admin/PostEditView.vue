@@ -18,6 +18,7 @@
     <button
       type="button"
       class="border px-8 py-2 text-lg font-bold text-stone-600 hover:bg-stone-200"
+      @click="returnPage"
     >
       取消
     </button>
@@ -61,7 +62,7 @@ const { post, tempPost } = storeToRefs(postStore);
 const { fetchPost, updateContent, updatePost } = postStore;
 
 const route = useRoute();
-const router = useRouter()
+const router = useRouter();
 
 const id = computed(() => {
   return route.params.postId;
@@ -69,8 +70,14 @@ const id = computed(() => {
 fetchPost(id.value);
 
 const savePost = async (post, id) => {
-  await updatePost(post, id)
+  await updatePost(post, id);
   // router.push('/admin/posts')
-}
+};
 
+const returnPage = () => {
+  router.back();
+  status.value.showAdminMenu = true;
+};
+
+status.value.showAdminMenu = false;
 </script>

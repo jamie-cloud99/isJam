@@ -1,12 +1,12 @@
 <template>
-  <div class="mb-8">
+  <div class="mb-8" ref="article">
     <Editor :api-key="apiKey" :init="init" v-model="tempPost.content" />
   </div>
   
 </template>
 
 <script setup>
-import { reactive, ref, toRefs, watch } from "vue";
+import { reactive, ref, toRefs, watch, onUpdated } from "vue";
 import { storeToRefs } from "pinia";
 import usePostStore from "../../stores/postStore";
 
@@ -27,8 +27,10 @@ import "tinymce/plugins/link";
 import "tinymce/plugins/lists";
 import "tinymce/plugins/preview";
 import "tinymce/plugins/save";
+import "tinymce/plugins/codesample";
 // 語言包
 import "tinymce-i18n/langs/zh_TW.js";
+
 
 
 const props = defineProps({
@@ -38,12 +40,12 @@ const props = defineProps({
   },
   plugins: {
     type: [String, Array],
-    default: "quickbars table image code link lists preview save",
+    default: "quickbars table image code link lists preview save codesample",
   },
   toolbar: {
     type: [String, Array],
     default:
-      "code | fontfamily fontsize styles| link image| save | undo redo | forecolor backcolor | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent blockquote table | removeformat | bold italic underline strikethrough | preview ",
+      "code | fontfamily fontsize styles| link image| save | undo redo | forecolor backcolor | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent codesample blockquote table | removeformat | bold italic underline strikethrough | preview ",
   },
   postId: {
     type: String,
@@ -51,11 +53,9 @@ const props = defineProps({
 });
 const emit = defineEmits(["update"]);
 
-
-
 const init = reactive({
   language: "zh_TW",
-  height: 400,
+  height: 800,
   menubar: false,
   content_css: false,
   skin: false,
@@ -67,6 +67,7 @@ const init = reactive({
   font_size_formats: "10pt 12pt 14pt 16pt 18pt 20pt 24pt 36pt 48pt",
   content_css: "src/assets/mce.css",
   toolbar_mode: "floating",
+  codesample_global_prismjs: true,
   save_onsavecallback: () => {
     savePost(tempPost.value.content, postId.value)
   }
@@ -82,10 +83,10 @@ watch(modelValue, () => {
 
 const apiKey = ref(import.meta.env.VITE_TINY_MCE_API);
 
-
-
-
 const savePost = ( content, id) => {
   emit("update", { content, id });
 };
+
+
+
 </script>

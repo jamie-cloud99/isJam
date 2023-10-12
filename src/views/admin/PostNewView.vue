@@ -14,6 +14,7 @@
     <button
       type="button"
       class="border px-8 py-2 text-lg font-bold text-stone-600 hover:bg-stone-200"
+      @click="returnPage"
     >
       取消
     </button>
@@ -62,11 +63,17 @@ const saveContent = (tempContent) => {
   localStorage.setItem("contentDraft", tempContent.content);
 };
 
-const router = useRouter()
+const router = useRouter();
 
 const savePost = async (post) => {
-  await createPost(post)
-  router.push('/admin/posts')
-}
+  await createPost(post);
+  router.push("/admin/posts");
+};
 
+const returnPage = () => {
+  router.back();
+  status.value.showAdminMenu = true;
+};
+
+status.value.showAdminMenu = false;
 </script>

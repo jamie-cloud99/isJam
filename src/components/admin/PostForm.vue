@@ -66,7 +66,7 @@
           :class="getInputClass(errors['category'])"
         >
           <option value="" selected disabled>請選擇文章類別</option>
-          <option :value="item.title" v-for="item in categoryList" :key="item.title">
+          <option :value="item.code" v-for="item in categoryList" :key="item.title">
             {{ item.title }}
           </option>
         </VField>
