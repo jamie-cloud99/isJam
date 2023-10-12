@@ -7,9 +7,9 @@
         <div
           class="flex h-full flex-col bg-gradient-to-t from-black/40 to-white/0"
         >
-          <h2 class="pl-10 pt-4 font-Yese text-8 lg:pl-12 lg:pt-12 lg:text-6xl">
+          <p class="pl-10 pt-4 font-Yese text-8 lg:pl-12 lg:pt-12 lg:text-6xl">
             {{ useLocalDate(today).fullDate }}
-          </h2>
+          </p>
           <div class="mb-6 mt-auto grid grid-cols-12 gap-6">
             <div class="col-span-8 col-start-3">
               <h1
@@ -27,8 +27,8 @@
       </div>
       <ul class="mb-8 grid grid-cols-3 gap-6 lg:mb-12 lg:grid-cols-6">
         <li class="col-span-1" v-for="item in categoryList" :key="item.title">
-          <a
-            class="flex aspect-square flex-col items-center justify-center border-2"
+          <RouterLink to="/posts" @click="selectCategory(item.code)"
+            class="flex aspect-square flex-col items-center justify-center border-2 hover:text-secondary-dark"
           >
             <i
               class="fa-solid mb-2 block text-[40px] md:mb-3 xl:text-[80px]"
@@ -37,18 +37,18 @@
             <h3 class="text-center font-serif font-bold md:text-xl lg:text-2xl">
               {{ item.title }}
             </h3>
-          </a>
+          </RouterLink>
         </li>
         <li class="col-span-1">
-          <a
-            class="flex aspect-square items-center justify-center border-2 border-primary bg-primary text-secondary"
+          <RouterLink to="/posts" @click="selectCategory('all')"
+            class="flex aspect-square items-center justify-center border-2 border-primary bg-primary text-secondary hover:bg-gradient-to-t from-secondary to-white hover:text-primary"
           >
             <h3
               class="text-center font-serif text-2xl font-bold md:text-3xl xl:text-5xl"
             >
               探索<br />更多
             </h3>
-          </a>
+          </RouterLink>
         </li>
       </ul>
       <SectionTitle :title="sections[0]" class="mb-6 lg:mb-8" />
@@ -87,89 +87,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="mb-8 lg:mb-15">
-      <TextMarquee />
-      <div class="container pb-11 pt-12 lg:pb-14 lg:pt-15">
-        <AlbumsComponent />
-      </div>
-      <TextMarquee />
-    </div>
-    <div class="container">
-      <div class="mb-12 grid grid-cols-1 gap-y-6 lg:mb-15 lg:grid-cols-2">
-        <div class="col-span-1">
-          <div class="divide-y-2 border-2">
-            <div class="px-3 py-4 lg:px-8">
-              <h2 class="font-serif text-2xl font-bold uppercase lg:text-8">
-                #FOLLOW US
-              </h2>
-            </div>
-            <div class="px-3 py-4 lg:px-8 lg:py-8">
-              <p class="mb-4 lg:mb-8">
-                想第一時間獲得新奇有趣的活動資訊？ <br />追蹤我們的社群吧！
-                <br />
-                也歡迎你聯繫我們，提供好玩有趣的活動企劃。
-              </p>
-              <ul class="space-y-4">
-                <li
-                  class="flex items-center gap-4 hover:text-secondary-dark"
-                  v-for="item in contactList"
-                  :key="item.title"
-                >
-                  <div
-                    class="flex h-8 w-8 items-center justify-center bg-primary text-white"
-                  >
-                    <i :class="item.icon"></i>
-                  </div>
-                  <a :href="item.link" class="block">{{ item.content }}</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="col-span-1">
-          <div class="flex h-full flex-col divide-y-2 border-2 lg:border-l-0">
-            <div class="px-3 py-4 lg:px-8">
-              <h2 class="font-serif text-2xl font-bold uppercase lg:text-8">
-                #subscribe us
-              </h2>
-            </div>
-            <div class="flex-grow px-3 py-4 lg:px-8 lg:py-8">
-              <p class="mb-4 lg:mb-8">
-                訂閱電子報送折價券！ <br />定期精選文章資訊及最新優惠資訊，
-                <br />
-                還不通通給我訂閱起來？
-              </p>
-              <input
-                type="text"
-                class="form-input mb-4 w-full border-2 border-primary bg-transparent px-6 py-4 placeholder:text-[#4F4F4F]"
-                placeholder="輸入Email"
-              />
-            </div>
-            <button type="button" class="btn mt-auto w-full border-primary">
-              確認訂閱
-              <span class="ml-1">»</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <hr class="border-b-3" />
-    <div class="py-12">
-      <div class="container">
-        <div class="flex justify-center">
-          <div
-            class="w-full space-y-3 text-center md:w-4/5 lg:space-y-4 2xl:w-1/2"
-          >
-            <p class="font-serif text-lg font-bold md:text-2xl lg:text-8">
-              此刻打盹，你將做夢；此刻學習，你將圓夢
-            </p>
-            <p class="font-serif text-sm font-bold md:text-base lg:text-lg">
-              ——我也不知道誰說的
-            </p>
-          </div>
-        </div>
-      </div>
-    </div> -->
   </main>
 </template>
 
@@ -179,8 +96,6 @@ import { storeToRefs } from "pinia";
 
 import PostCard from "../../components/PostCard.vue";
 import TagComponent from "../../components/TagComponent.vue";
-import TextMarquee from "../../components/TextMarquee.vue";
-import AlbumsComponent from "../../components/AlbumsComponent.vue";
 import SectionTitle from "../../components/SectionTitle.vue";
 
 import { useLocalDate } from "../../composables/format";
@@ -188,7 +103,7 @@ import usePostStore from "../../stores/postStore";
 
 const postStore = usePostStore();
 const { today, categoryList, recentPosts } = storeToRefs(postStore);
-const { fetchPostsAll, clearPost } = postStore;
+const { fetchPostsAll, clearPost, selectCategory } = postStore;
 
 const onlineEvent = reactive({
   title: "Consolation To You",
@@ -223,7 +138,7 @@ const contactList = reactive([
 
 const sections = reactive([
   {
-    title: "近期活動",
+    title: "近期文章",
     engTitle: "Recent",
   },
   {
