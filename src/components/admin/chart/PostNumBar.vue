@@ -1,10 +1,12 @@
 <template>
-  <Bar :options="chartOptions" :data="chartData" />
+  <Bar v-if="!status.isLoading" :options="chartOptions" :data="chartData" />
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed, toRefs, watch } from "vue";
+import { storeToRefs } from "pinia";
 import { Bar } from "vue-chartjs";
+import useStatusStore from "@/stores/statusStore";
 import {
   Chart as ChartJS,
   Title,
@@ -14,6 +16,38 @@ import {
   CategoryScale,
   LinearScale,
 } from "chart.js";
+
+const props = defineProps({
+  postData: Object,
+});
+const { postData } = toRefs(props);
+
+const statusStore = useStatusStore();
+const { status } = storeToRefs(statusStore);
+
+const monthList = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+const monthTotalList = computed(() => {
+  return monthList.map((month) => {
+    const foundMonth = postData.value.monthlyData.find(
+      (item) => item.title === month,
+    );
+    return foundMonth ? foundMonth.total : 0;
+  });
+});
 
 ChartJS.register(
   Title,
@@ -25,20 +59,7 @@ ChartJS.register(
 );
 
 const chartData = ref({
-  labels: [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ],
+  labels: monthList,
   datasets: [
     {
       label: "文章數量",
@@ -51,7 +72,7 @@ const chartData = ref({
         "rgba(153, 102, 255, 0.5)",
         "rgba(201, 203, 207, 0.5)",
       ],
-      data: [0, 0, 0, 0, 0, 3, 0,3,0, 4, 1, 3],
+      data: monthTotalList,
     },
   ],
 });
@@ -62,11 +83,24 @@ const chartOptions = ref({
     y: {
       suggestedMax: 6,
       ticks: {
-                stepSize: 1
-            }
-    }
-  }
+        stepSize: 1,
+      },
+    },
+  },
 });
+
+watch(
+  () => postData,
+  () => {
+    if (postData.value.length > 0) {
+      status.value.isLoading = false;
+      chartData.value.datasets[0].data = monthTotalList.value;
+    }
+  },
+  { deep: true },
+);
+
+status.value.isLoading = true;
 </script>
 
 <style scoped></style>

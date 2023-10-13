@@ -5,7 +5,8 @@ export default defineStore("statusStore", () => {
   const status = ref({
     isSaving: false,
     isNewPost: true,
-    showAdminMenu: true
+    showAdminMenu: true,
+    isLoading: false
   });
 
   
