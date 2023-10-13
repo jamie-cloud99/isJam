@@ -6,7 +6,7 @@
 import { ref, computed, toRefs, watch } from "vue";
 import { storeToRefs } from "pinia";
 import usePostStore from "@/stores/postStore";
-import useStatusStore from "@/stores/statusStore"
+import useStatusStore from "@/stores/statusStore";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "vue-chartjs";
 
@@ -19,8 +19,8 @@ const { categoryData } = toRefs(props);
 const postStore = usePostStore();
 const { categoryList } = storeToRefs(postStore);
 
-const statusStore = useStatusStore()
-const { status } = storeToRefs(statusStore)
+const statusStore = useStatusStore();
+const { status } = storeToRefs(statusStore);
 
 const categoryTitles = computed(() => {
   return categoryList.value.map((category) => category.title);
@@ -60,15 +60,18 @@ const chartOptions = ref({
   responsive: true,
 });
 
-watch(() => categoryData, () => {
-  if(categoryData.value.length > 0) {
-    status.value.isLoading = false
-    chartData.value.datasets[0].data = categoryTotalList.value
-  }
-}, {deep: true})
-
-status.value.isLoading = true
-
+watch(
+  () => categoryData,
+  () => {
+    if (categoryData.value.length > 0) {
+      status.value.isLoading = false;
+      chartData.value.datasets[0].data = categoryTotalList.value;
+    } else {
+      status.value.isLoading = true;
+    }
+  },
+  { deep: true, immediate: true },
+);
 </script>
 
 <style scoped></style>

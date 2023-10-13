@@ -72,7 +72,7 @@ const chartData = ref({
         "rgba(153, 102, 255, 0.5)",
         "rgba(201, 203, 207, 0.5)",
       ],
-      data: monthTotalList,
+      data: [],
     },
   ],
 });
@@ -92,15 +92,15 @@ const chartOptions = ref({
 watch(
   () => postData,
   () => {
-    if (postData.value.length > 0) {
+    if (postData.value.total > 0) {
       status.value.isLoading = false;
       chartData.value.datasets[0].data = monthTotalList.value;
+    } else {
+      status.value.isLoading = true;
     }
   },
-  { deep: true },
+  { deep: true, immediate: true },
 );
-
-status.value.isLoading = true;
 </script>
 
 <style scoped></style>
