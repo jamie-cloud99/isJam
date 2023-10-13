@@ -56,7 +56,7 @@ export default defineStore("postStore", () => {
     title: "全部",
   });
 
-  const searchList = ref([])
+  const searchList = ref([]);
 
   const tagList = computed(() => {
     const allTags = postList.value.flatMap((post) => post.tag);
@@ -64,17 +64,14 @@ export default defineStore("postStore", () => {
   });
 
   const tempTagList = computed(() => {
-    return tagList.value.filter(tag => categoryPostList.value.some(item => item.tag.includes(tag)))
-  })
+    return tagList.value.filter((tag) =>
+      categoryPostList.value.some((item) => item.tag.includes(tag)),
+    );
+  });
 
-  // const tagListSelected = computed(() => {
-  //   return tempTagList.value
-  // })
-
-   const tagListSelected = computed(
-    () => {
-    return tempTagList.value
-  })
+  const tagListSelected = computed(() => {
+    return tempTagList.value;
+  });
 
   const categoryPostList = computed(() => {
     if (categorySelected.value.code === "all") {
@@ -84,11 +81,12 @@ export default defineStore("postStore", () => {
         item.category === categorySelected.value.code;
       return postList.value.filter(categoryFillter);
     }
-  })
+  });
 
   const tempPostList = computed(() => {
-    return categoryPostList.value.filter(item => item.tag.some(tag => tagListSelected.value.includes(tag)))
-    
+    return categoryPostList.value.filter((item) =>
+      item.tag.some((tag) => tagListSelected.value.includes(tag)),
+    );
   });
 
   const recentPosts = computed(() => {
@@ -110,7 +108,7 @@ export default defineStore("postStore", () => {
   };
 
   const fetchPost = async (id) => {
-    post.value = {}
+    post.value = {};
     const api = `${VITE_JSON_SERVER}posts/${id}`;
     try {
       const res = await axios.get(api);
@@ -224,12 +222,17 @@ export default defineStore("postStore", () => {
   };
 
   const searchPosts = async (keyword) => {
-    if(postList.length === 0) await fetchPostsAll()
-    searchList.value = postList.value.filter(post => {
-      const searchFields = [post.title, post.content, post.description, post.type]
-      return searchFields.some(field => field && field.includes(keyword))
-    })
-  }
+    if (postList.length === 0) await fetchPostsAll();
+    searchList.value = postList.value.filter((post) => {
+      const searchFields = [
+        post.title,
+        post.content,
+        post.description,
+        post.type,
+      ];
+      return searchFields.some((field) => field && field.includes(keyword));
+    });
+  };
 
   return {
     today,
@@ -252,6 +255,6 @@ export default defineStore("postStore", () => {
     updatePost,
     clearPost,
     selectCategory,
-    searchPosts
+    searchPosts,
   };
 });

@@ -196,5 +196,8 @@ onUpdated(() => {
   @apply bg-red-100/50;
 }
 
+.content img {
+  @apply block my-4
+}
 
 </style>
