@@ -1,5 +1,12 @@
 # Jam2 Blog 個人部落格網站
 > [Demo 連結] (https://is-jam.vercel.app/#/)
+
+## 頁面預覽：
+>  ![image](https://github.com/jamie-cloud99/isJam/assets/126141081/8c6f5e27-b7b2-463c-8557-5fc447b939f0)
+> ![image](https://github.com/jamie-cloud99/isJam/assets/126141081/b6c559d1-7572-4d57-a97a-48d1cbd6d7d7)
+
+
+
 ## 網站功能
 1. 部落格文章：分類檢索、搜尋
 2. 後台管理員登入
