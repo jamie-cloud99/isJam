@@ -1,5 +1,5 @@
 # Jam2 Blog 個人部落格網站
-> [Demo 連結] (https://is-jam.vercel.app/#/)
+> [Demo 連結](https://is-jam.vercel.app/#/)
 
 ## 頁面預覽：
 >  ![image](https://github.com/jamie-cloud99/isJam/assets/126141081/8c6f5e27-b7b2-463c-8557-5fc447b939f0)
