@@ -200,4 +200,8 @@ onUpdated(() => {
   @apply block my-4
 }
 
+.content .hljs {
+  @apply font-sans tracking-wide
+}
+
 </style>
