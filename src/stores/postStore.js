@@ -51,12 +51,15 @@ export default defineStore("postStore", () => {
       title: "雜想",
     },
   ]);
+
   const categorySelected = ref({
     code: "all",
     title: "全部",
   });
 
   const searchList = ref([]);
+  const tagsSelectedObj = ref({});
+  const tagListSelected = ref(new Set([]));
 
   const tagList = computed(() => {
     const allTags = postList.value.flatMap((post) => post.tag);
@@ -67,10 +70,6 @@ export default defineStore("postStore", () => {
     return tagList.value.filter((tag) =>
       categoryPostList.value.some((item) => item.tag.includes(tag)),
     );
-  });
-
-  const tagListSelected = computed(() => {
-    return tempTagList.value;
   });
 
   const categoryPostList = computed(() => {
@@ -84,8 +83,10 @@ export default defineStore("postStore", () => {
   });
 
   const tempPostList = computed(() => {
-    return categoryPostList.value.filter((item) =>
-      item.tag.some((tag) => tagListSelected.value.includes(tag)),
+    return categoryPostList.value.filter(
+      (item) =>
+        !tagListSelected.value.size ||
+        item.tag.some((tag) => tagListSelected.value.has(tag)),
     );
   });
 
@@ -234,6 +235,17 @@ export default defineStore("postStore", () => {
     });
   };
 
+  const updateTagsSelected = async () => {
+    const selectedTagNames = [];
+    for (const tagName in tagsSelectedObj.value) {
+      if (tagsSelectedObj.value[tagName]) {
+        selectedTagNames.push(tagName);
+      }
+    }
+
+    tagListSelected.value = new Set(selectedTagNames);
+  };
+
   return {
     today,
     newPost,
@@ -248,6 +260,7 @@ export default defineStore("postStore", () => {
     tempTagList,
     tagListSelected,
     searchList,
+    tagsSelectedObj,
     fetchPostsAll,
     updateContent,
     fetchPost,
@@ -256,5 +269,6 @@ export default defineStore("postStore", () => {
     clearPost,
     selectCategory,
     searchPosts,
+    updateTagsSelected,
   };
 });
