@@ -209,6 +209,7 @@ export default defineStore("postStore", () => {
   };
 
   const selectCategory = (code) => {
+    clearTagsSelected();
     if (code === "all") {
       categorySelected.value = {
         code: "all",
@@ -244,6 +245,11 @@ export default defineStore("postStore", () => {
     }
 
     tagListSelected.value = new Set(selectedTagNames);
+  };
+
+  const clearTagsSelected = () => {
+    tagsSelectedObj.value = {};
+    tagListSelected.value = new Set([]);
   };
 
   return {
